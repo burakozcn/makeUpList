@@ -11,7 +11,7 @@
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.627408791326-s412llci6bf00tohpouvho8hh32mj313</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC4kcKeWL1ZQqgwp4IARvQyB1cH5ScF5tM</string>
+	<string>API</string>
 	<key>GCM_SENDER_ID</key>
 	<string>627408791326</string>
 	<key>PLIST_VERSION</key>
@@ -33,7 +33,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:627408791326:ios:db5b28c454e33264</string>
+	<string>ID</string>
 	<key>DATABASE_URL</key>
 	<string>https://makeuplist-62209.firebaseio.com</string>
 </dict>
