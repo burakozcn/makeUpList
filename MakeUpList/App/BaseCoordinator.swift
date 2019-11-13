@@ -16,6 +16,7 @@ class BaseCoordinator<ResultType> {
     childCoordinators[coordinator.identifier] = nil
   }
   
+  @discardableResult
   func coordinate<T>(coordinator: BaseCoordinator<T>) -> Observable<T> {
     store(coordinator: coordinator)
     return coordinator.start()

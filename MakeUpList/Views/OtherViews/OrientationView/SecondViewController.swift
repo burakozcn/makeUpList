@@ -21,7 +21,7 @@ class SecondViewController: UIViewController, UIViewControllerTransitioningDeleg
     let textView = UITextView()
     textView.translatesAutoresizingMaskIntoConstraints = false
     textView.font = UIFont.systemFont(ofSize: 18)
-    textView.text = "So we decided to make an application about make-up things. You can add your groups, brands, took record of it."
+    textView.text = NSLocalizedString("secondInfo", comment: "So we decided to make an application about make-up things. You can add your groups, brands, took record of it.")
     textView.isUserInteractionEnabled = false
     return textView
   }()
@@ -30,7 +30,7 @@ class SecondViewController: UIViewController, UIViewControllerTransitioningDeleg
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
     label.font = UIFont.systemFont(ofSize: 25)
-    label.text = " <= BACK "
+    label.text = NSLocalizedString("back", comment: " <= BACK ")
     return label
   }()
   
@@ -38,7 +38,7 @@ class SecondViewController: UIViewController, UIViewControllerTransitioningDeleg
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
     label.font = UIFont.systemFont(ofSize: 25)
-    label.text = " NEXT =>"
+    label.text = NSLocalizedString("next", comment: " NEXT =>")
     return label
   }()
   
@@ -60,7 +60,7 @@ class SecondViewController: UIViewController, UIViewControllerTransitioningDeleg
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.backgroundColor = .red
-    button.setTitle("Get Started", for: .normal)
+    button.setTitle(NSLocalizedString("start", comment: "Get Started"), for: .normal)
     return button
   }()
   

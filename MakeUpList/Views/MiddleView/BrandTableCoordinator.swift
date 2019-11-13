@@ -31,8 +31,8 @@ class BrandTableCoordinator: BaseCoordinator<Void> {
   }
   
   @discardableResult
-  func goToBrandAdd(on rootViewController: UINavigationController, brand: Brand?) -> Observable<Void> {
-    let brandAddCoordinator = BrandAddViewCoordinator(rootViewController: rootViewController, group: group, brand: brand)
+  func goToBrandAdd(on rootViewController: UINavigationController, brand: Brand?, new: Bool) -> Observable<Void> {
+    let brandAddCoordinator = BrandAddViewCoordinator(rootViewController: rootViewController, group: group, brand: brand, new: new)
     return coordinate(coordinator: brandAddCoordinator)
   }
   

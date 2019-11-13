@@ -5,11 +5,13 @@ class BrandAddViewController: UIViewController {
   var viewModel: BrandAddViewModel!
   let disposeBag = DisposeBag()
   let group: Group
+  let new: Bool
   let brand: Brand?
   
-  init(group: Group, brand: Brand?) {
+  init(group: Group, brand: Brand?, new: Bool) {
     self.group = group
     self.brand = brand
+    self.new = new
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -20,7 +22,7 @@ class BrandAddViewController: UIViewController {
   let nameTextField: UITextField = {
     let textField = UITextField()
     textField.translatesAutoresizingMaskIntoConstraints = false
-    textField.placeholder = "Name"
+    textField.placeholder = NSLocalizedString("name", comment: "Name")
     textField.textAlignment = .center
     textField.borderStyle = .roundedRect
     return textField
@@ -29,7 +31,7 @@ class BrandAddViewController: UIViewController {
   let priceTextField: UITextField = {
     let textField = UITextField()
     textField.translatesAutoresizingMaskIntoConstraints = false
-    textField.placeholder = "Price"
+    textField.placeholder = NSLocalizedString("price", comment: "Price")
     textField.textAlignment = .center
     textField.borderStyle = .roundedRect
     return textField
@@ -41,7 +43,7 @@ class BrandAddViewController: UIViewController {
     textView.font = UIFont.systemFont(ofSize: 16)
     textView.layer.borderColor = UIColor.lightGray.cgColor
     textView.layer.borderWidth = 1
-    textView.text = "Description"
+    textView.text = NSLocalizedString("description", comment: "Description")
     textView.textColor = .lightGray
     return textView
   }()
@@ -49,7 +51,7 @@ class BrandAddViewController: UIViewController {
   let submitButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle("Submit", for: .normal)
+    button.setTitle(NSLocalizedString("submit", comment: "Submit"), for: .normal)
     button.backgroundColor = .white
     button.setTitleColor(.blue, for: .normal)
     button.isEnabled = false
@@ -59,7 +61,7 @@ class BrandAddViewController: UIViewController {
   let cancelButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle("Cancel", for: .normal)
+    button.setTitle(NSLocalizedString("cancel", comment: "Cancel"), for: .normal)
     button.backgroundColor = .white
     button.setTitleColor(.red, for: .normal)
     return button
@@ -70,7 +72,7 @@ class BrandAddViewController: UIViewController {
     view.backgroundColor = .white
     
     setupUI()
-    viewModel = BrandAddViewModel(group: group)
+    viewModel = BrandAddViewModel(group: group, new: new)
     
     if let brand = brand {
       nameTextField.text = brand.name
@@ -88,7 +90,11 @@ class BrandAddViewController: UIViewController {
     submitButton.rx.tap
       .asObservable()
       .subscribe(onNext: { [weak self] _ in
-        self?.viewModel.saveBrand(name: (self?.nameTextField.text)!, price: Double(self?.priceTextField.text ?? "0")!, feature: (self?.featureTextView.text)!, brand: (self?.brand))
+        if (self?.new)! {
+          self?.viewModel.saveBrand(name: (self?.nameTextField.text)!, price: Double(self?.priceTextField.text ?? "0")!, feature: (self?.featureTextView.text)!, brand: (self?.brand)) { _ in }
+        } else {
+          self?.viewModel.editBrand(name: (self?.nameTextField.text)!, price: Double(self?.priceTextField.text ?? "0")!, feature: (self?.featureTextView.text)!, brand: (self?.brand)) { _ in }
+        }
       }).disposed(by: disposeBag)
     
     cancelButton.rx.tap
@@ -144,18 +150,24 @@ class BrandAddViewController: UIViewController {
     
     featureTextView.rx.didEndEditing
       .subscribe(onNext: { [weak self] _ in
-        self?.featureTextView.text = "Description"
+        self?.featureTextView.text = NSLocalizedString("description", comment: "Description")
         self?.featureTextView.textColor = .lightGray
       }).disposed(by: disposeBag)
   }
   
-  func showAlert() {
-    viewModel = BrandAddViewModel(group: group)
-    let alert = UIAlertController(title: "Success", message: "Brand has been saved successfully.", preferredStyle: .actionSheet)
-    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {(action: UIAlertAction!) in
+  func showAlert(new: Bool) {
+    let message: String
+    viewModel = BrandAddViewModel(group: group, new: new)
+    if new {
+      message = NSLocalizedString("successbrand", comment: "Brand has been saved successfully!")
+    } else {
+      message = NSLocalizedString("update", comment: "Brand has been updated successfully!")
+    }
+    let alert = UIAlertController(title: NSLocalizedString("success", comment: "Success"), message: message, preferredStyle: .actionSheet)
+    alert.addAction(UIAlertAction(title: NSLocalizedString("ok", comment: "OK"), style: UIAlertAction.Style.default, handler: {(action: UIAlertAction!) in
       self.viewModel.backToBrand()
     }))
-    UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+    UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: nil)
   }
   
   func navigationFadeIn() {

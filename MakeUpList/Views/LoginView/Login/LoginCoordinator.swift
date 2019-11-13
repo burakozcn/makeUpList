@@ -30,8 +30,15 @@ class LoginCoordinator: BaseCoordinator<Void> {
     return coordinate(coordinator: signUpCoordinator)
   }
   
+  @discardableResult
   func openGroupView(on rootViewController: UINavigationController) -> Observable<Void> {
     let groupCoordinator = GroupCoordinator(rootViewController: rootViewController)
     return coordinate(coordinator: groupCoordinator)
+  }
+  
+  @discardableResult
+  func openOrientationView(on rootViewController: UINavigationController) -> Observable<Void> {
+    let orientCoordinator = OrientationViewCoordinator(rootViewController: rootViewController)
+    return coordinate(coordinator: orientCoordinator)
   }
 }

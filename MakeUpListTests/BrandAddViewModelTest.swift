@@ -26,10 +26,10 @@ class BrandAddViewModelTest: XCTestCase {
   
   func testBrandSave() {
     let name = "Mock Brand"
-    let userId = Auth.auth().currentUser?.uid
+    let userId = "5kBbU1cSKVRZM9waJX9Q1kAAwiD2"
     
     let exp = expectation(description: "Brand Save Test")
-    ref.child("brands").child(userId!).child("MyDefault").child("1").observe(.value) { snapshot in
+    ref.child("brands").child(userId).child("MyDefault").child("1").observe(.value) { snapshot in
       let checkname = snapshot.childSnapshot(forPath: "name").value as! String
       if (checkname == name) {
         XCTAssertTrue(true)
@@ -73,7 +73,7 @@ class BrandAddViewModelTest: XCTestCase {
   private func brandAdd() {
     
     getGroup { group in
-      self.brandAddVM = BrandAddViewModel(group: group)
+      self.brandAddVM = BrandAddViewModel(group: group, new: true)
       self.brandAddVM.saveBrand(name: "Mock Brand", price: 1.1, feature: "Mock Brand", brand: nil) { error in
         if error == nil {
           XCTAssert(true)
@@ -88,7 +88,7 @@ class BrandAddViewModelTest: XCTestCase {
     let exp = expectation(description: "Delete Mock Brand Name")
     
     getGroup { group in
-      self.brandAddVM = BrandAddViewModel(group: group)
+      self.brandAddVM = BrandAddViewModel(group: group, new: true)
       self.brandAddVM.deleteBrand { error in
         if error == nil {
           XCTAssert(true)

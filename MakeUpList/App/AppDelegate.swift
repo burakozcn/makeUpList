@@ -9,11 +9,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   static var interval1 = Date.timeIntervalSinceReferenceDate
   private var coordinator: AppCoordinator!
   private let disposeBag = DisposeBag()
+  var helper: Helper!
   
   override init() {
     FirebaseApp.configure()
     Helper.defaultValues()
     Helper.shops()
+    helper = Helper()
+    helper.checkUser()
+    helper = nil
   }
   
   func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
@@ -24,12 +28,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     window = UIWindow(frame: UIScreen.main.bounds)
     
+    if #available(iOS 13.0, *) {
+      window?.overrideUserInterfaceStyle = .light
+    }
+    
     coordinator = AppCoordinator(window: window!)
     coordinator.start()
       .subscribe()
       .disposed(by: disposeBag)
     
     return true
+  }
+
+  func applicationWillTerminate(_ application: UIApplication) {
+    do {
+      try Auth.auth().signOut()
+    } catch (let error) {
+      print (error.localizedDescription)
+    }
   }
 }
 

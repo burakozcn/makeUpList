@@ -24,7 +24,7 @@ class BrandViewController: UITableViewController {
     navigationItem.leftBarButtonItem = leftBarButton
     navigationItem.rightBarButtonItem = rightBarButton
     
-    self.title = "Brands"
+    self.title = NSLocalizedString("brandtitle", comment: "Brands")
     self.tableView.register(UINib(nibName: "BrandTableViewCell", bundle: Bundle.main), forCellReuseIdentifier: tableCellIdentifier)
     
     viewModel = BrandViewModel(group: group)
@@ -45,7 +45,7 @@ class BrandViewController: UITableViewController {
     rightBarButton.rx.tap
       .asObservable()
       .subscribe(onNext: { [weak self] _ in
-        self?.viewModel.goToBrandAdd(brand: nil)
+        self?.viewModel.goToBrandAdd(brand: nil, new: true)
         self?.navigationFadeOut()
       }).disposed(by: disposeBag)
     
@@ -55,22 +55,22 @@ class BrandViewController: UITableViewController {
         let cell = self?.tableView.cellForRow(at: index) as! BrandTableViewCell
         let available = cell.brand.available
         self?.viewModel = BrandViewModel(group: (self?.group)!)
-        let alert = UIAlertController(title: "Multiple Choice", message: "Choose one of action", preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Edit", style: .default, handler: { action in
-          self?.viewModel.goToBrandAdd(brand: cell.brand)
+        let alert = UIAlertController(title: NSLocalizedString("multiple", comment: "Multiple Choice"), message: NSLocalizedString("choose", comment: "Choose One of Action"), preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("edit", comment: "Edit"), style: .default, handler: { action in
+          self?.viewModel.goToBrandAdd(brand: cell.brand, new: false)
         }))
-        alert.addAction(UIAlertAction(title: available ? "Make Unavailable" : "Make Available", style: .default, handler: { action in
-          self?.viewModel.changeAvailable(brand: cell.brand)
+        alert.addAction(UIAlertAction(title: available ? NSLocalizedString("unavailable", comment: "Make Unavailable") : NSLocalizedString("available", comment: "Make Available"), style: .default, handler: { action in
+          self?.viewModel.changeAvailable(brand: cell.brand) {_ in }
         }))
         if available {
-          alert.addAction(UIAlertAction(title: "Go To Detail", style: .default, handler: { action in
+          alert.addAction(UIAlertAction(title: NSLocalizedString("detail", comment: "Go to Detail"), style: .default, handler: { action in
             self?.viewModel.goToDetail(brand: cell.brand)
           }))
         }
-        alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: { action in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("cancel", comment: "Cancel"), style: .destructive, handler: { action in
           alert.dismiss(animated: true, completion: nil)
         }))
-        UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+        UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: nil)
       }).disposed(by: disposeBag)
     }
   

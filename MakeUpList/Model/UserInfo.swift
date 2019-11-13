@@ -5,4 +5,6 @@ struct UserInfo {
   let name: String
   let password: String
   let date: Date
+  let email: String
+  let firstTime: Bool
 }

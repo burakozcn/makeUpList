@@ -18,7 +18,7 @@ class GroupAddViewController: UIViewController, UIImagePickerControllerDelegate,
     textField.translatesAutoresizingMaskIntoConstraints = false
     textField.textAlignment = .center
     textField.borderStyle = .roundedRect
-    textField.placeholder = "Group Name"
+    textField.placeholder = NSLocalizedString("groupname", comment: "Group Name")
     return textField
   }()
   
@@ -26,7 +26,7 @@ class GroupAddViewController: UIViewController, UIImagePickerControllerDelegate,
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.backgroundColor = .white
-    button.setTitle("Submit", for: .normal)
+    button.setTitle(NSLocalizedString("submit", comment: "Submit"), for: .normal)
     button.setTitleColor(.blue, for: .normal)
     button.isEnabled = false
     return button
@@ -36,14 +36,14 @@ class GroupAddViewController: UIViewController, UIImagePickerControllerDelegate,
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.backgroundColor = .white
-    button.setTitle("Cancel", for: .normal)
+    button.setTitle(NSLocalizedString("cancel", comment: "Cancel"), for: .normal)
     button.setTitleColor(.red, for: .normal)
     return button
   }()
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .blue
+    view.backgroundColor = .lightGray
     setupView()
     
     imageView.isUserInteractionEnabled = true
@@ -60,7 +60,7 @@ class GroupAddViewController: UIViewController, UIImagePickerControllerDelegate,
     submitButton.rx.tap
       .asObservable()
       .subscribe(onNext: { [weak self] _ in
-        self?.viewModel.saveGroup(groupName: (self?.nameTextField.text)!, imageView: self?.imageView)
+        self?.viewModel.saveGroup(groupName: (self?.nameTextField.text)!, imageView: self?.imageView) { _ in }
       }).disposed(by: disposeBag)
     
     cancelButton.rx.tap
@@ -105,12 +105,12 @@ class GroupAddViewController: UIViewController, UIImagePickerControllerDelegate,
   
   func showAlert() {
     viewModel = GroupAddViewModel()
-    let alert = UIAlertController(title: "Success", message: "Saved successfully.", preferredStyle: .actionSheet)
-    let action = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+    let alert = UIAlertController(title: NSLocalizedString("success", comment: "Success"), message: NSLocalizedString("successsave", comment: "Saved successfully."), preferredStyle: .actionSheet)
+    let action = UIAlertAction(title: NSLocalizedString("ok", comment: "OK"), style: .default) { [weak self] _ in
       self?.viewModel.openGroupView()
     }
     alert.addAction(action)
-    UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+    UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: nil)
   }
   
   func navigationFadeIn() {

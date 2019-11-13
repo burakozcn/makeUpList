@@ -6,7 +6,7 @@ class PriceTableViewController: UIViewController {
   let label: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.text = "It is under construction"
+    label.text = NSLocalizedString("construction", comment: "It is under construction")
     label.font = UIFont.boldSystemFont(ofSize: 30)
     label.textAlignment = .center
     label.isUserInteractionEnabled = false

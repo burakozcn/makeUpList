@@ -11,14 +11,14 @@ class SignUpViewController: UIViewController {
     label.textColor = .red
     label.adjustsFontSizeToFitWidth = true
     label.textAlignment = .center
-    label.text = "Sign Up"
+    label.text = NSLocalizedString("signup", comment: "Sign Up")
     return label
   }()
   
   let nameTextField: UITextField = {
     let textField = UITextField()
     textField.translatesAutoresizingMaskIntoConstraints = false
-    textField.placeholder = "Name"
+    textField.placeholder = NSLocalizedString("name", comment: "Name")
     textField.textAlignment = .center
     textField.borderStyle = UITextField.BorderStyle.roundedRect
     return textField
@@ -27,7 +27,7 @@ class SignUpViewController: UIViewController {
   let surnameTextField: UITextField = {
     let textField = UITextField()
     textField.translatesAutoresizingMaskIntoConstraints = false
-    textField.placeholder = "Surname"
+    textField.placeholder = NSLocalizedString("surname", comment: "Surname")
     textField.textAlignment = .center
     textField.borderStyle = UITextField.BorderStyle.roundedRect
     return textField
@@ -36,7 +36,7 @@ class SignUpViewController: UIViewController {
   let usernameTextField: UITextField = {
     let textField = UITextField()
     textField.translatesAutoresizingMaskIntoConstraints = false
-    textField.placeholder = "Username"
+    textField.placeholder = NSLocalizedString("username", comment: "Username")
     textField.textAlignment = .center
     textField.borderStyle = UITextField.BorderStyle.roundedRect
     textField.autocapitalizationType = UITextAutocapitalizationType.none
@@ -56,7 +56,7 @@ class SignUpViewController: UIViewController {
   let passwordTextField: UITextField = {
     let textField = UITextField()
     textField.translatesAutoresizingMaskIntoConstraints = false
-    textField.placeholder = "Password"
+    textField.placeholder = NSLocalizedString("pass", comment: "Password")
     textField.textAlignment = .center
     textField.borderStyle = UITextField.BorderStyle.roundedRect
     textField.isSecureTextEntry = true
@@ -67,7 +67,7 @@ class SignUpViewController: UIViewController {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.backgroundColor = .red
-    button.setTitle("Sign Up", for: .normal)
+    button.setTitle(NSLocalizedString("signup", comment: "Sign Up"), for: .normal)
     button.isEnabled = false
     return button
   }()
@@ -78,12 +78,12 @@ class SignUpViewController: UIViewController {
     label.font = UIFont.italicSystemFont(ofSize: 14)
     label.textAlignment = .center
     label.adjustsFontSizeToFitWidth = true
-    label.text = "Please fill all fields."
+    label.text = NSLocalizedString("fill", comment: "Please fill all fields.")
     return label
   }()
   
   override func viewDidLoad() {
-    view.backgroundColor = .white
+    self.view.backgroundColor = .white
     super.viewDidLoad()
     
     setupView()
@@ -132,7 +132,8 @@ class SignUpViewController: UIViewController {
     signUpButton.rx.tap
       .asObservable()
       .subscribe(onNext: { [weak self] in
-        self?.viewModel.signUp(name: (self?.nameTextField.text)!, surname: (self?.surnameTextField.text)!, username: (self?.usernameTextField.text)!, email: (self?.mailTextField.text)!, password: (self?.passwordTextField.text)!)
+        self?.viewModel.signUp(name: (self?.nameTextField.text)!, surname: (self?.surnameTextField.text)!, username: (self?.usernameTextField.text)!, email: (self?.mailTextField.text)!, password: (self?.passwordTextField.text)!, completion: {_,_ in
+        })
       }).disposed(by: disposeBag)
   }
   
@@ -201,12 +202,12 @@ class SignUpViewController: UIViewController {
   
   func showAlert(success: Bool, message: String) {
     viewModel = SignUpViewModel()
-    let alert = UIAlertController(title: success ? "Success" : "Error", message: message, preferredStyle: .actionSheet)
-    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: {(action: UIAlertAction!) in
+    let alert = UIAlertController(title: success ? NSLocalizedString("success", comment: "Success") : NSLocalizedString("error", comment: "Error"), message: message, preferredStyle: .actionSheet)
+    alert.addAction(UIAlertAction(title: NSLocalizedString("ok", comment: "OK"), style: UIAlertAction.Style.default, handler: {(action: UIAlertAction!) in
       if success {
         self.viewModel.backtoLogin()
       }
     }))
-    UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+    UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: nil)
   }
 }

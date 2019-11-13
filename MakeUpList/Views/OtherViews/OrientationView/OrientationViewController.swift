@@ -21,7 +21,7 @@ class OrientationViewController: UIViewController, UIViewControllerTransitioning
     let textView = UITextView()
     textView.translatesAutoresizingMaskIntoConstraints = false
     textView.font = UIFont.systemFont(ofSize: 18)
-    textView.text = "Cosmetic is always a trend, always a big industry. Women or men are crazy about them."
+    textView.text = NSLocalizedString("cosmeticInfo", comment: "Cosmetic is always a trend, always a big industry. Women or men are crazy about them.")
     textView.isScrollEnabled = true
     textView.isUserInteractionEnabled = false
     return textView
@@ -31,7 +31,7 @@ class OrientationViewController: UIViewController, UIViewControllerTransitioning
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
     label.font = UIFont.systemFont(ofSize: 25)
-    label.text = " NEXT =>"
+    label.text = NSLocalizedString("next", comment: " NEXT =>")
     return label
   }()
   
@@ -46,7 +46,7 @@ class OrientationViewController: UIViewController, UIViewControllerTransitioning
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.backgroundColor = .blue
-    button.setTitle("Get Started", for: .normal)
+    button.setTitle(NSLocalizedString("start", comment: "Get Started"), for: .normal)
     return button
   }()
   
@@ -64,6 +64,7 @@ class OrientationViewController: UIViewController, UIViewControllerTransitioning
     startButton.rx.tap
       .asObservable()
       .subscribe(onNext: { [unowned self] _ in
+        self.viewModel.changeFirstTime()
         self.viewModel.goToGroupView()
       }).disposed(by: disposeBag)
   }

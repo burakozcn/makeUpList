@@ -10,7 +10,7 @@ class AboutViewController: UIViewController {
   let aboutCompanyLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.text = "About Our Company"
+    label.text = NSLocalizedString("aboutcompany", comment: "About Our Company")
     label.font = UIFont.boldSystemFont(ofSize: 20)
     label.textAlignment = .center
     label.isUserInteractionEnabled = false
@@ -23,14 +23,14 @@ class AboutViewController: UIViewController {
     textView.font = UIFont.systemFont(ofSize: 18)
     textView.textAlignment = .left
     textView.isUserInteractionEnabled = false
-    textView.text = "Our company founded in 2017, we are working hardly for making much more better mobile applications. \n We have made a lot of application."
+    textView.text = NSLocalizedString("aboutcompanytext", comment: "Our company founded in 2017, we are working hardly for making much more better mobile applications. \n We have made a lot of application.")
     return textView
   }()
   
   let ourTeamLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.text = "Our Team"
+    label.text = NSLocalizedString("team", comment: "Our Team")
     label.font = UIFont.boldSystemFont(ofSize: 20)
     label.textAlignment = .center
     label.isUserInteractionEnabled = false
@@ -40,7 +40,7 @@ class AboutViewController: UIViewController {
   let contactLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.text = "Contact Information"
+    label.text = NSLocalizedString("contact", comment: "Contact Information")
     label.font = UIFont.systemFont(ofSize: 20)
     label.textAlignment = .center
     return label

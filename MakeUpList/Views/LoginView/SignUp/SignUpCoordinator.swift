@@ -22,7 +22,7 @@ class SignUpCoordinator: BaseCoordinator<Void> {
   }
   
   func backtoLogin() {
-    let window = UIApplication.shared.keyWindow!
+    let window = UIApplication.shared.windows.first!
     let loginCoordinator = LoginCoordinator(window: window)
     coordinate(coordinator: loginCoordinator)
   }

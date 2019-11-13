@@ -34,7 +34,7 @@ class SideBarTableViewController: UITableViewController {
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell: SideBarTableViewCell = tableView.dequeueReusableCell(withIdentifier: sideCellIdentifier, for: indexPath) as! SideBarTableViewCell
-    cell.label.text = rows[indexPath.row]
+    cell.label.text = NSLocalizedString(rows[indexPath.row].lowercased(), comment: rows[indexPath.row])
     return cell
   }
   

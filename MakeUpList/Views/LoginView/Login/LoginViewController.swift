@@ -30,7 +30,7 @@ class LoginViewController: UIViewController {
   let passwordTextField: UITextField = {
     let textField = UITextField()
     textField.translatesAutoresizingMaskIntoConstraints = false
-    textField.placeholder = "Password"
+    textField.placeholder = NSLocalizedString("pass", comment: "Password")
     textField.textAlignment = .center
     textField.borderStyle = UITextField.BorderStyle.roundedRect
     textField.textContentType = UITextContentType.password
@@ -42,7 +42,7 @@ class LoginViewController: UIViewController {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.backgroundColor = .blue
-    button.setTitle("Login", for: .normal)
+    button.setTitle(NSLocalizedString("login", comment: "Login"), for: .normal)
     button.isEnabled = false
     return button
   }()
@@ -51,7 +51,7 @@ class LoginViewController: UIViewController {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.backgroundColor = .red
-    button.setTitle("Sign Up!", for: .normal)
+    button.setTitle(NSLocalizedString("signup", comment: "SignUp"), for: .normal)
     return button
   }()
   
@@ -68,7 +68,7 @@ class LoginViewController: UIViewController {
   }
   
   override func viewDidLoad() {
-    view.backgroundColor = .white
+    self.view.backgroundColor = .white
     super.viewDidLoad()
     
     setupView()
@@ -98,7 +98,8 @@ class LoginViewController: UIViewController {
     loginButton.rx.tap
       .asObservable()
       .subscribe(onNext: { [weak self] _ in
-        self?.viewModel.login(email: (self?.emailTextField.text)!, password: (self?.passwordTextField.text)!)
+        self?.viewModel.login(email: (self?.emailTextField.text)!, password: (self?.passwordTextField.text)!, completion: {_,_ in 
+        })
       }).disposed(by: disposeBag)
     
     signUpButton.rx.tap
@@ -148,8 +149,8 @@ class LoginViewController: UIViewController {
   
   func showAlert(message: String) {
     viewModel = LoginViewModel()
-    let alert = UIAlertController(title: "Error", message: message, preferredStyle: .actionSheet)
-    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-    UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+    let alert = UIAlertController(title: NSLocalizedString("error", comment: "Error"), message: message, preferredStyle: .actionSheet)
+    alert.addAction(UIAlertAction(title: NSLocalizedString("ok", comment: "OK"), style: UIAlertAction.Style.default, handler: nil))
+    UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: nil)
   }
 }

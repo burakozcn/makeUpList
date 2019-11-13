@@ -50,6 +50,10 @@ struct Helper {
     }
   }
   
+  func checkUser() {
+    print("USER ID === \(String(describing: Auth.auth().currentUser?.uid))")
+  }
+  
   func delay(seconds: Double, completion: @escaping ()-> Void) {
     DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: completion)
   }

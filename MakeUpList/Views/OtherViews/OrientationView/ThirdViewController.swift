@@ -20,7 +20,7 @@ class ThirdViewController: UIViewController {
     let textView = UITextView()
     textView.translatesAutoresizingMaskIntoConstraints = false
     textView.font = UIFont.systemFont(ofSize: 18)
-    textView.text = "It is easy to use, you can understand easily. So, we don't explain too much. Enjoy!"
+    textView.text = NSLocalizedString("thirdInfo", comment: "It is easy to use, you can understand easily. So, we don't explain too much. Enjoy!")
     textView.isUserInteractionEnabled = false
     return textView
   }()
@@ -29,7 +29,7 @@ class ThirdViewController: UIViewController {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
     label.font = UIFont.systemFont(ofSize: 25)
-    label.text = " <= BACK "
+    label.text = NSLocalizedString("back", comment: " <= BACK ")
     return label
   }()
   
@@ -45,7 +45,7 @@ class ThirdViewController: UIViewController {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.backgroundColor = .blue
-    button.setTitle("Get Started", for: .normal)
+    button.setTitle(NSLocalizedString("start", comment: "Get Started"), for: .normal)
     return button
   }()
   

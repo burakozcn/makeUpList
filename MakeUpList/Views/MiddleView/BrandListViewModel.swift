@@ -19,7 +19,13 @@ class BrandViewModel {
     var sectionsUpdate = [SectionOfBrands]()
     
     reference.observe(.value) { snapshot in
-      let snap = snapshot.childSnapshot(forPath: self.group.name)
+      var snap: DataSnapshot
+      if (self.group.system) {
+        snap = snapshot.childSnapshot(forPath: "system-default-value").childSnapshot(forPath: self.group.name)
+      } else {
+        let userId = Auth.auth().currentUser?.uid
+        snap = snapshot.childSnapshot(forPath: userId!).childSnapshot(forPath: self.group.name)
+      }
       if snap.exists() {
         let brand = snap.value as! NSArray
         
@@ -56,36 +62,40 @@ class BrandViewModel {
     return dataSource
   }
   
-  func backToGroupView() {
-    let vc = UIApplication.shared.keyWindow?.rootViewController as! UINavigationController
-    coordinator = BrandTableCoordinator(rootViewController: vc, group: group)
-    coordinator.backToGroupView(on: vc)
-  }
-  
-  func goToBrandAdd(brand: Brand?) {
-    let vc = UIApplication.shared.keyWindow?.rootViewController as! UINavigationController
-    coordinator = BrandTableCoordinator(rootViewController: vc, group: group)
-    coordinator.goToBrandAdd(on: vc, brand: brand)
-  }
-  
-  func changeAvailable(brand: Brand) {
+  func changeAvailable(brand: Brand, completion: @escaping (Bool?) -> Void) {
     let path: DatabaseReference
     if (group.system) {
-      path = reference.child("\(group.name)").child("\(brand.id)")
+      path = reference.child("system-default-value").child("\(group.name)").child("\(brand.id)")
     } else {
       let current = Auth.auth().currentUser?.uid
-      path = reference.child(current!).child("\(brand.id)")
+      path = reference.child(current!).child("\(group.name)").child("\(brand.id)")
     }
 
     if brand.available {
       path.updateChildValues(["available" : false])
+      completion(false)
     } else {
       path.updateChildValues(["available" : true])
+      completion(true)
     }
+    viewController = BrandViewController(group: group)
+    self.viewController.tableView.reloadData()
+  }
+  
+  func backToGroupView() {
+    let vc = UIApplication.shared.windows.first?.rootViewController as! UINavigationController
+    coordinator = BrandTableCoordinator(rootViewController: vc, group: group)
+    coordinator.backToGroupView(on: vc)
+  }
+  
+  func goToBrandAdd(brand: Brand?, new: Bool) {
+    let vc = UIApplication.shared.windows.first?.rootViewController as! UINavigationController
+    coordinator = BrandTableCoordinator(rootViewController: vc, group: group)
+    coordinator.goToBrandAdd(on: vc, brand: brand, new: new)
   }
   
   func goToDetail(brand: Brand) {
-    let vc = UIApplication.shared.keyWindow?.rootViewController as! UINavigationController
+    let vc = UIApplication.shared.windows.first?.rootViewController as! UINavigationController
     coordinator = BrandTableCoordinator(rootViewController: vc, group: group)
     coordinator.goToDetail(on: vc, brand: brand)
   }

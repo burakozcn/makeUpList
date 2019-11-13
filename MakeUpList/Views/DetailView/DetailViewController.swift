@@ -8,7 +8,7 @@ class DetailViewController: UIViewController {
   let nameLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.text = "Name"
+    label.text = NSLocalizedString("name", comment: "Name")
     label.font = UIFont.boldSystemFont(ofSize: 20)
     label.textAlignment = .center
     label.isUserInteractionEnabled = false
@@ -27,7 +27,7 @@ class DetailViewController: UIViewController {
   let priceLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.text = "Price"
+    label.text = NSLocalizedString("price", comment: "Price")
     label.font = UIFont.boldSystemFont(ofSize: 20)
     label.textAlignment = .center
     label.isUserInteractionEnabled = false
@@ -46,7 +46,7 @@ class DetailViewController: UIViewController {
   let descriptionLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.text = "Description"
+    label.text = NSLocalizedString("description", comment: "Description")
     label.font = UIFont.boldSystemFont(ofSize: 20)
     label.textAlignment = .center
     label.isUserInteractionEnabled = false
@@ -65,7 +65,7 @@ class DetailViewController: UIViewController {
   let tableLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.text = "Available Shops"
+    label.text = NSLocalizedString("availableShop", comment: "Available Shops")
     label.font = UIFont.boldSystemFont(ofSize: 20)
     label.textAlignment = .center
     label.isUserInteractionEnabled = false

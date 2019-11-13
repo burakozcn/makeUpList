@@ -25,9 +25,8 @@ class GroupViewController: UICollectionViewController {
     return toolBar
   }()
   
-  let leftBarButton = UIBarButtonItem(barButtonSystemItem: .edit, target: nil, action: nil)
+  let leftBarButton = UIBarButtonItem(barButtonSystemItem: .organize, target: nil, action: nil)
   let rightBarButton = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
-  let toolBarButton = UIBarButtonItem(barButtonSystemItem: .organize, target: nil, action: nil)
   let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
   let toolBarButtonRight = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: nil, action: nil)
   
@@ -38,6 +37,8 @@ class GroupViewController: UICollectionViewController {
     flowLayout.minimumLineSpacing = 5
     flowLayout.scrollDirection = .vertical
     flowLayout.sectionInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+    flowLayout.footerReferenceSize = CGSize(width: UIScreen.main.bounds.width,
+                                     height: (UIScreen.main.bounds.height) * 0.1)
     return flowLayout
   }()
   
@@ -50,20 +51,22 @@ class GroupViewController: UICollectionViewController {
   }
   
   override func viewDidLoad() {
+    self.view.backgroundColor = .clear
     super.viewDidLoad()
-    self.view.backgroundColor = UIColor.purple
     navigationController?.navigationBar.prefersLargeTitles = true
     navigationItem.leftBarButtonItem = leftBarButton
     navigationItem.rightBarButtonItem = rightBarButton
     
     self.title = "MakeUp Groups"
-
+    
     setupView()
     self.collectionView.register(UINib(nibName:"GroupCollectionViewCell", bundle:Bundle.main), forCellWithReuseIdentifier: collectionIdentifier)
+    self.collectionView.register(UINib(nibName: "GroupCollectionReusableView", bundle: Bundle.main), forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "FooterId")
     self.collectionView.reloadData()
+    self.collectionView.backgroundColor = .lightGray
     
     var items = [UIBarButtonItem]()
-    items.append(toolBarButton)
+    items.append(flexSpace)
     items.append(flexSpace)
     items.append(toolBarButtonRight)
     toolBar.setItems(items, animated: true)
@@ -78,7 +81,7 @@ class GroupViewController: UICollectionViewController {
         .disposed(by: self.disposeBag)
     }
     
-    toolBarButton.rx.tap
+    leftBarButton.rx.tap
       .asObservable()
       .subscribe(onNext: { [weak self] _ in
         self?.sideBarViewSetup()
@@ -87,7 +90,8 @@ class GroupViewController: UICollectionViewController {
     toolBarButtonRight.rx.tap
       .asObservable()
       .subscribe(onNext: { [weak self] _ in
-        self?.viewModel.signOut()
+        self?.viewModel.signOut{ _,_ in
+        }
       }).disposed(by: disposeBag)
     
     rightBarButton.rx.tap
@@ -122,7 +126,7 @@ class GroupViewController: UICollectionViewController {
     leadConstraint.isActive = true
     
     sideTableSetup()
-    
+        
     toolBar.trailingAnchor.constraint(equalTo: safeGuide.trailingAnchor).isActive = true
     toolBar.leadingAnchor.constraint(equalTo: safeGuide.leadingAnchor).isActive = true
     toolBar.bottomAnchor.constraint(equalTo: safeGuide.bottomAnchor).isActive = true
@@ -132,6 +136,9 @@ class GroupViewController: UICollectionViewController {
     let width = UIScreen.main.bounds.width
     menuIsOpen = !menuIsOpen
     
+    if (menuIsOpen) {
+      self.title = ""
+    }
     view.layoutIfNeeded()
     
     UIView.animate(
@@ -142,7 +149,11 @@ class GroupViewController: UICollectionViewController {
         self.leadConstraint.constant = self.menuIsOpen ? 0 : -(width * 0.45)
         self.view.layoutIfNeeded()
     },
-      completion: nil
+      completion: { [weak self] _ in
+        if !(self?.menuIsOpen)! {
+          self?.title = "MakeUp Groups"
+        }
+      }
     )
   }
   
@@ -171,9 +182,9 @@ class GroupViewController: UICollectionViewController {
   }
   
   func showAlert(message: String) {
-    let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
-    UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true, completion: nil)
+    let alert = UIAlertController(title: NSLocalizedString("error", comment: "Error"), message: message, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: NSLocalizedString("ok", comment: "OK"), style: UIAlertAction.Style.default, handler: nil))
+    UIApplication.shared.windows.first?.rootViewController?.present(alert, animated: true, completion: nil)
   }
 }
 
